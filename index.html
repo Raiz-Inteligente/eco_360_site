@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Raiz Inteligente Consultoria | ECO360: inteligência para uma agricultura mais produtiva e regenerativa.">
+  <title>Raiz Inteligente | ECO360</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Raiz Inteligente Consultoria - início">
+      <span class="brand-mark"><i data-lucide="sprout"></i></span>
+      <span class="brand-copy"><strong>Raiz Inteligente</strong><small>CONSULTORIA</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><i data-lucide="menu"></i></button>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="#inicio" data-section="inicio">Início</a>
+      <a href="#dashboard" data-section="dashboard">Visão 360°</a>
+      <a href="#metodologia" data-section="metodologia">Metodologia</a>
+      <a href="#producao" data-section="producao">KPIs &amp; Produção</a>
+    </nav>
+    <a class="button button-outline header-cta" href="#contato">Contato <i data-lucide="arrow-up-right"></i></a>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="inicio">
+      <div class="hero-copy reveal">
+        <div class="eyebrow"><span></span> Inteligência agroambiental aplicada</div>
+        <h1>O futuro do agro<br><em>começa pela raiz.</em></h1>
+        <p>O ECO360 conecta produção, clima, território e emissões para transformar dados em decisões que geram valor para o negócio e para o planeta.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#metodologia">Ver metodologia <i data-lucide="arrow-down-right"></i></a>
+          <a class="button button-text" href="#dashboard">Acessar dashboard <i data-lucide="move-up-right"></i></a>
+        </div>
+        <div class="hero-proof">
+          <div class="avatar-stack"><span>RS</span><span>PR</span><span>MT</span><span>+</span></div>
+          <span>Dados que aproximam<br><b>pessoas, terra e resultado.</b></span>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="visual-frame">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85" alt="Campo agrícola ao nascer do sol">
+          <div class="visual-caption">
+            <span class="live-dot"></span>
+            <div><small>ECOSSISTEMA ECO360</small><strong>Visão integrada do território</strong></div>
+            <i data-lucide="arrow-up-right"></i>
+          </div>
+        </div>
+        <div class="floating-stat">
+          <span class="stat-icon"><i data-lucide="target"></i></span>
+          <div>
+            <small>IOA Médio (Sul / Centro-Oeste)</small>
+            <strong>57,45 pts <span>↑</span></strong>
+            <p class="stat-desc" style="font-size: 0.72rem; color: #666; margin-top: 4px; line-height: 1.2; max-width: 210px;">
+              Índice de Oportunidade Agroambiental: cruza dados de produção e sustentabilidade do solo.
+            </p>
+          </div>
+        </div>
+        <div class="sun-line"></div>
+      </div>
+    </section>
+
+    <!-- ÁREA INTERATIVA DO POWER BI -->
+    <section class="dashboard-section" id="dashboard">
+      <div class="section-heading reveal">
+        <div>
+          <div class="eyebrow"><span></span> Centro de inteligência</div>
+          <h2>Uma visão. <em>360 possibilidades.</em></h2>
+        </div>
+        <p>Acesse o painel interativo abaixo para navegar entre as abas e dados do ECO360.</p>
+      </div>
+
+      <div class="powerbi-wrapper reveal">
+        <!-- SUBSTUTUA O SRC ABAIXO PELA SUA URL DO POWER BI -->
+        <iframe title="eco_360" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=b8eb81c6-434d-4a1f-a4a2-46b5eb1df68b&autoAuth=true&ctid=bd697c1b-c481-479c-841e-c618542675c3" frameborder="0" allowFullScreen="true">
+        </iframe>
+      </div>
+    </section>
+
+    <!-- METODOLOGIA E KPIS -->
+    <section class="methodology" id="metodologia">
+      <div class="method-intro reveal">
+        <div class="eyebrow"><span></span> O método</div>
+        <h2>Decisões melhores<br>nascem de <em>conexões.</em></h2>
+        <p>O ECO360 organiza a complexidade do campo em uma leitura simples, acionável e completa. Porque sustentabilidade também é saber para onde ir.</p>
+        <a href="https://github.com/Raiz-Inteligente" class="text-link" target="_blank">Conheça a Raiz Inteligente <i data-lucide="arrow-up-right"></i></a>
+      </div>
+      <div class="kpi-cards reveal" id="producao">
+        <article class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-symbol"><i data-lucide="landmark"></i></span>
+            <span class="card-number">01</span>
+          </div>
+          <small>PRODUÇÃO</small>
+          <h3>Área plantada</h3>
+          <strong>187,16 <b>Mi ha</b></strong>
+          <div class="card-bottom">
+            <span class="positive">Consolidado</span>
+            <span>Base territorial Brasil</span>
+          </div>
+        </article>
+
+        <article class="kpi-card accent-card">
+          <div class="kpi-top">
+            <span class="kpi-symbol"><i data-lucide="wheat"></i></span>
+            <span class="card-number">02</span>
+          </div>
+          <small>EFICIÊNCIA</small>
+          <h3>Produção total</h3>
+          <strong>593,67 <b>Mi t</b></strong>
+          <div class="card-bottom">
+            <span class="positive">Consolidado</span>
+            <span>Soja Centro-Oeste / Sul</span>
+          </div>
+        </article>
+
+        <article class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-symbol"><i data-lucide="sprout"></i></span>
+            <span class="card-number">03</span>
+          </div>
+          <small>REGENERAÇÃO</small>
+          <h3>Carbono no solo</h3>
+          <strong>53,01 <b>t/ha</b></strong>
+          <div class="card-bottom">
+            <span class="positive">Média</span>
+            <span>Potencial de carbono</span>
+          </div>
+        </article>
+
+        <article class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-symbol"><i data-lucide="target"></i></span>
+            <span class="card-number">04</span>
+          </div>
+          <small>ANÁLISE ESTRATÉGICA</small>
+          <h3>IOA Médio</h3>
+          <strong>57,45 <b>pts</b></strong>
+          <div class="card-bottom">
+            <span class="positive">Índice</span>
+            <span>Oportunidade Agroambiental</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <div class="footer-brand">
+      <span class="brand-mark"><i data-lucide="sprout"></i></span>
+      <span><strong>Raiz Inteligente</strong><small>CONSULTORIA</small></span>
+    </div>
+    <p>Inteligência para cultivar um futuro possível.</p>
+    <a class="button button-light" href="mailto:contato@raizinteligente.com.br?subject=Consulta%20Eco360&body=Olá,%20gostaria%20de%20mais%20informações.">Fale com a gente <i data-lucide="arrow-up-right"></i></a>
+    <small class="copyright">© 2026 Raiz Inteligente Consultoria</small>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
