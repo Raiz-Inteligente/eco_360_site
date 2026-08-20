@@ -1,45 +1,41 @@
-# 🌿 ECO360 - Centro de Inteligência Agroambiental
+# 🌿 ECO360 - Plataforma Web & Painel Agroambiental
 
-![ECO360 Banner](https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=1200&q=80)
+![ECO360 Preview](https://github.com/Raiz-Inteligente/eco_360_site/blob/main/imagens/campo%20soja.jfif)
 
-> Panorama estratégico, indicadores socioambientais e dados de produtividade da cadeia da soja no Brasil.
-
----
-
-## 📌 Sobre o Projeto
-
-O **ECO360** é uma plataforma web interativa desenvolvida para consolidar e apresentar dados estratégicos do setor agrícola brasileiro. O foco do sistema está na cultura da soja, combinando métricas ambientais, dados climáticos, emissões de carbono e indicadores territoriais em uma interface moderna e acessível.
-
-A aplicação foi projetada para conectar análises avançadas do **Power BI** a um ambiente web responsivo com experiência visual fluida.
+> Interface web desenvolvida para incorporar e apresentar o dashboard interativo **ECO360** (Raiz Inteligente), reunindo indicadores de produção, clima, solo e emissões de carbono da soja.
 
 ---
 
-## 🚀 Funcionalidades
+## 📌 Sobre o Site
 
-- **Dashboard Interativo:** Integração de relatórios e painéis dinâmicos de dados.
-- **Visualização de Indicadores:** 
-  - Área plantada e produção total.
-  - Indicadores ambientais e de uso do solo.
-  - Estimativa de carbono no solo e emissões.
-- **Design Responsivo:** Layout adaptado para navegação em computadores, tablets e smartphones.
-- **Efeitos Visuais:** Efeito Parallax temático em seções de destaque e animações de exibição de conteúdo (*scroll reveal*).
+Esta aplicação web funciona como o portal de navegação do projeto **ECO360**. Ela foi projetada para oferecer uma experiência executiva e fluida, integrando o relatório do **Power BI** diretamente na página, além de apresentar a marca, os pilares da consultoria e atalhos para a navegação das análises territoriais.
+
+---
+
+## 🚀 Funcionalidades da Interface
+
+* **Incorporação do Power BI:** Exibição do relatório interativo integrado via `iframe` em layout responsivo.
+* **Navegação Limpa:** Ajustes para exibição focada no conteúdo visual do painel.
+* **Design Temático:** Identidade visual voltada ao agronegócio e sustentabilidade, incluindo efeito **Parallax** na seção do painel.
+* **Favicon Personalizado:** Ícone exclusivo em formato SVG (🌱).
+* **Responsividade:** Adaptação da interface para telas de computadores, tablets e smartphones.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Front-end:** HTML5, CSS3, JavaScript.
-- **Business Intelligence:** Microsoft Power BI / Looker Studio.
-- **Iconografia:** [Lucide Icons](https://lucide.dev/).
-- **Hospedagem:** GitHub Pages.
+* **HTML5:** Estruturação semântica das seções e do container de incorporação.
+* **CSS3:** Estilização visual, regras de responsividade, efeito Parallax e ajuste de proporções (16:9).
+* **JavaScript:** Interatividade, controle de navegação e efeitos de exibição na página.
+* **Microsoft Power BI:** Serviço de BI incorporado à interface.
 
 ---
 
-## 📂 Estrutura do Arquivo
+## 📁 Estrutura do Front-End
 
 ```tree
 .
-├── index.html        # Estrutura principal do site
-├── styles.css        # Estilização, temas e layout responsivo
-├── script.js        # Lógica de interatividade e animações
-└── README.md         # Documentação do projeto
+├── index.html        # Estrutura principal da landing page e container do iframe
+├── styles.css        # Estilos, variáveis de cores, efeito parallax e mídia queries
+├── script.js         # Lógica de interatividade da página
+└── README.md         # Documentação da interface web
