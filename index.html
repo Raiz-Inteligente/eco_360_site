@@ -82,10 +82,17 @@
         <p>Acesse o painel interativo abaixo para navegar entre as abas e dados do ECO360.</p>
       </div>
 
-      <div class="powerbi-wrapper reveal">
-        <!-- SUBSTUTUA O SRC ABAIXO PELA SUA URL DO POWER BI -->
-        <iframe title="eco_360" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=b8eb81c6-434d-4a1f-a4a2-46b5eb1df68b&autoAuth=true&ctid=bd697c1b-c481-479c-841e-c618542675c3" frameborder="0" allowFullScreen="true">
-        </iframe>
+      <div class="powerbi-shell">
+        <button class="powerbi-fullscreen-toggle" type="button" aria-label="Ativar tela cheia" aria-pressed="false">
+          <span class="powerbi-fullscreen-icon" aria-hidden="true">⛶</span>
+          <span class="powerbi-fullscreen-text">Tela cheia</span>
+        </button>
+
+        <div class="powerbi-wrapper reveal">
+          <!-- SUBSTUTUA O SRC ABAIXO PELA SUA URL DO POWER BI -->
+          <iframe title="eco_360" src="https://app.powerbi.com/reportEmbed?reportId=b8eb81c6-434d-4a1f-a4a2-46b5eb1df68b&autoAuth=true&ctid=bd697c1b-c481-479c-841e-c618542675c3" frameborder="0" allow="fullscreen; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen>
+          </iframe>
+        </div>
       </div>
     </section>
 

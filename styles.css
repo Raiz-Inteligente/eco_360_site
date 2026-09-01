@@ -5,6 +5,16 @@ html{overflow-x:hidden}
 /* Ajustes específicos para ocultar barras indesejadas do relatório Power BI */
 
 /* CONTAINER E IFRAME DO POWER BI AJUSTADOS */
+.powerbi-shell {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .powerbi-wrapper {
   width: 100%;
   max-width: 1200px;
@@ -28,9 +38,143 @@ html{overflow-x:hidden}
   border: none;
 }
 
+.powerbi-fullscreen-toggle {
+  position: relative;
+  align-self: flex-end;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(30, 58, 39, 0.18);
+  border-radius: 999px;
+  padding: 10px 14px;
+  margin: 0 0 12px auto;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.16);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.powerbi-fullscreen-toggle:hover {
+  transform: translateY(-1px);
+  background: #809325;
+  border-color: #809325;
+  color: var(--white);
+  box-shadow: 0 12px 28px rgba(128, 147, 37, 0.28);
+}
+
+.powerbi-fullscreen-toggle:focus-visible {
+  outline: 3px solid #b7c867;
+  outline-offset: 3px;
+}
+
+.powerbi-fullscreen-toggle.is-active {
+  background: rgba(30, 58, 39, 0.96);
+  border-color: rgba(30, 58, 39, 0.96);
+  color: #ffffff;
+}
+
+.powerbi-fullscreen-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.powerbi-shell.is-fullscreen,
+.powerbi-shell:fullscreen,
+.powerbi-shell:-webkit-full-screen,
+.powerbi-shell:-moz-full-screen,
+.powerbi-shell:-ms-fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000;
+  overflow: hidden;
+}
+
+.powerbi-shell.is-fullscreen .powerbi-fullscreen-toggle,
+.powerbi-shell:fullscreen .powerbi-fullscreen-toggle,
+.powerbi-shell:-webkit-full-screen .powerbi-fullscreen-toggle,
+.powerbi-shell:-moz-full-screen .powerbi-fullscreen-toggle,
+.powerbi-shell:-ms-fullscreen .powerbi-fullscreen-toggle {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  margin: 0;
+  z-index: 4;
+}
+
+.powerbi-shell.is-fullscreen .powerbi-wrapper,
+.powerbi-shell:fullscreen .powerbi-wrapper,
+.powerbi-shell:-webkit-full-screen .powerbi-wrapper,
+.powerbi-shell:-moz-full-screen .powerbi-wrapper,
+.powerbi-shell:-ms-fullscreen .powerbi-wrapper {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  aspect-ratio: auto !important;
+  border-radius: 0 !important;
+  border-width: 0 !important;
+  margin: 0 !important;
+}
+
+.powerbi-shell.is-fullscreen .powerbi-wrapper iframe,
+.powerbi-shell:fullscreen .powerbi-wrapper iframe,
+.powerbi-shell:-webkit-full-screen .powerbi-wrapper iframe,
+.powerbi-shell:-moz-full-screen .powerbi-wrapper iframe,
+.powerbi-shell:-ms-fullscreen .powerbi-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border: none;
+  display: block;
+}
+
 @media (max-width: 760px) {
   .powerbi-wrapper {
     aspect-ratio: 4 / 3; /* Proporção mais confortável para telas mobile */
+  }
+
+  .powerbi-shell.is-fullscreen,
+  .powerbi-shell:fullscreen,
+  .powerbi-shell:-webkit-full-screen,
+  .powerbi-shell:-moz-full-screen,
+  .powerbi-shell:-ms-fullscreen {
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+
+  .powerbi-shell.is-fullscreen .powerbi-wrapper,
+  .powerbi-shell:fullscreen .powerbi-wrapper,
+  .powerbi-shell:-webkit-full-screen .powerbi-wrapper,
+  .powerbi-shell:-moz-full-screen .powerbi-wrapper,
+  .powerbi-shell:-ms-fullscreen .powerbi-wrapper {
+    width: 100vw !important;
+    height: 100dvh !important;
+  }
+
+  .powerbi-fullscreen-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .powerbi-fullscreen-text {
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
