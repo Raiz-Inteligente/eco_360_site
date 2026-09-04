@@ -1,235 +1,51 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa os ícones Lucide depois que o HTML estiver disponível.
-  if (window.lucide) lucide.createIcons();
+// ==========================================
+// INSIRA SUA CHAVE DA API DO GEMINI ABAIXO:
+const GEMINI_API_KEY = "AQ.Ab8RN6I4tTy--ZNhWCL3GErl0iHXQ9pg-a6ujONjYKQDB2gQOw";
+// ==========================================
 
-  const powerbiShell = document.querySelector('.powerbi-shell');
-  const powerbiIframe = document.querySelector('.powerbi-wrapper iframe');
-  const fullscreenButton = document.querySelector('.powerbi-fullscreen-toggle');
-  const fullscreenText = fullscreenButton?.querySelector('.powerbi-fullscreen-text');
-  const fullscreenIcon = fullscreenButton?.querySelector('.powerbi-fullscreen-icon');
+const DATA_FOLDER_URL = "https://drive.google.com/drive/folders/1wSHcvrLdmFlmVMZHQwzzD9b-S3kQRmm4?usp=sharing";
+// Preencha os IDs dos arquivos compartilhados para habilitar a carga direta do Drive.
+const DRIVE_FILE_IDS = { dim_municipio: "139YOCJHN29Bjm1rlc5zd9jdCNNLRqT9d", fato_soja: "1-pwDlBEJMBZ6k5GsAnMek89ZaXalFv-4", fato_clima: "1IPCCLYvk6LMjigP1iw5zxcl7v57ltFoP", fato_cobertura: "16FWvNeHarzOWgqoWD_Z2ZI5KcoMRGyuE", fato_emissao_soja: "1GDjOovnierCNvRm_gr7jOtiYI5mt7uk-", fato_emissao_estado: "1xBFRbe9f0p0TZKCFwzsqddmxK_3_msvx" };
+const FALLBACK = {
+  municipalities: [{ municipio: "Sorriso", uf: "MT", regiao: "Centro-Oeste", carbon: 64.94, production: 12.884, lat: -12.54, lng: -55.71 }, { municipio: "Rio Verde", uf: "GO", regiao: "Centro-Oeste", carbon: 58.1, production: 8.942, lat: -17.79, lng: -50.92 }, { municipio: "Nova Ubirata", uf: "MT", regiao: "Centro-Oeste", carbon: 61.4, production: 8.395, lat: -13.03, lng: -54.51 }, { municipio: "Campo Novo do Parecis", uf: "MT", regiao: "Centro-Oeste", carbon: 52.7, production: 8.068, lat: -13.67, lng: -57.89 }, { municipio: "Nova Mutum", uf: "MT", regiao: "Centro-Oeste", carbon: 49.2, production: 8.04, lat: -13.83, lng: -56.08 }, { municipio: "Ponta Grossa", uf: "PR", regiao: "Sul", carbon: 44.5, production: 4.81, lat: -25.09, lng: -50.16 }, { municipio: "Cruz Alta", uf: "RS", regiao: "Sul", carbon: 47.9, production: 4.3, lat: -28.64, lng: -53.61 }],
+  years: ["2019", "2020", "2021", "2022", "2023", "2024"], production: { center: [52, 59, 62, 62, 76, 67], south: [37, 34, 42, 25, 37, 40] }, climate: { temperature: [21.3, 21, 20.4, 20.4, 21.2, 21.6], humidity: [73.1, 70.3, 71.5, 72, 74.2, 73], scatter: [[1.54, 2.7], [1.9, 3.8], [2.3, 4.1], [3.1, 5.4], [3.8, 3.2], [5.2, 5.8]] }, emissions: { states: ["MT", "RS", "PR", "GO", "SC", "MS", "DF"], values: [40670, 9674, 3609, 2008, 1335, 1199, 48], cities: ["Sorriso", "Rio Verde", "Nova Ubirata", "Campo Novo", "Nova Mutum"], cityValues: [5100, 3600, 3300, 3200, 3200] }, land: { labels: ["Cobertura Natural", "Pastagem", "Agricultura", "Soja"], values: [63.5, 30.1, 23.1, 18.1] }
+};
+const state = { tables: {}, records: [], filters: { regiao: "Todas", uf: "Todas", municipio: "Todos", ano: "Todos", oportunidade: "Todas" }, data: FALLBACK, charts: {}, map: null };
+const chartColors = ["#1b4332", "#78a98a", "#c6a15b", "#8b5e4a", "#4b87a3"];
 
-  const getFullscreenElement = () => {
-    return document.fullscreenElement
-      || document.webkitFullscreenElement
-      || document.mozFullScreenElement
-      || document.msFullscreenElement
-      || null;
-  };
-
-  const updateFullscreenButton = () => {
-    if (!fullscreenButton || !fullscreenText || !fullscreenIcon) return;
-
-    const activeElement = getFullscreenElement();
-    const isFullscreen = activeElement === powerbiShell || activeElement === powerbiIframe;
-
-    powerbiShell?.classList.toggle('is-fullscreen', isFullscreen);
-    powerbiIframe?.classList.toggle('is-fullscreen', isFullscreen);
-
-    fullscreenButton.classList.toggle('is-active', isFullscreen);
-    fullscreenButton.setAttribute('aria-pressed', String(isFullscreen));
-    fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Sair da tela cheia' : 'Ativar tela cheia');
-    fullscreenText.textContent = isFullscreen ? 'Sair da tela cheia' : 'Tela cheia';
-    fullscreenIcon.textContent = isFullscreen ? '⤢' : '⛶';
-  };
-
-  const syncFullscreenState = () => {
-    requestAnimationFrame(() => {
-      applyFullscreenStyles();
-      updateFullscreenButton();
-    });
-  };
-
-  const requestFullscreen = async (element) => {
-    if (!element) return false;
-
-    if (typeof element.requestFullscreen === 'function') {
-      await element.requestFullscreen();
-      return true;
-    }
-
-    if (typeof element.webkitRequestFullscreen === 'function') {
-      await element.webkitRequestFullscreen();
-      return true;
-    }
-
-    if (typeof element.mozRequestFullScreen === 'function') {
-      await element.mozRequestFullScreen();
-      return true;
-    }
-
-    if (typeof element.msRequestFullscreen === 'function') {
-      await element.msRequestFullscreen();
-      return true;
-    }
-
-    return false;
-  };
-
-  const exitFullscreen = async () => {
-    if (document.exitFullscreen) {
-      await document.exitFullscreen();
-      return;
-    }
-
-    if (document.webkitExitFullscreen) {
-      await document.webkitExitFullscreen();
-      return;
-    }
-
-    if (document.mozCancelFullScreen) {
-      await document.mozCancelFullScreen();
-      return;
-    }
-
-    if (document.msExitFullscreen) {
-      await document.msExitFullscreen();
-    }
-  };
-
-  const applyFullscreenStyles = () => {
-    const isFullscreen = !!getFullscreenElement();
-    const wrapper = document.querySelector('.powerbi-wrapper');
-
-    if (powerbiShell) {
-      powerbiShell.style.position = isFullscreen ? 'fixed' : '';
-      powerbiShell.style.inset = isFullscreen ? '0' : '';
-      powerbiShell.style.width = isFullscreen ? '100vw' : '';
-      powerbiShell.style.height = isFullscreen ? '100vh' : '';
-      powerbiShell.style.maxWidth = isFullscreen ? '100vw' : '';
-      powerbiShell.style.maxHeight = isFullscreen ? '100vh' : '';
-      powerbiShell.style.margin = isFullscreen ? '0' : '';
-      powerbiShell.style.padding = isFullscreen ? '0' : '';
-      powerbiShell.style.zIndex = isFullscreen ? '9999' : '';
-      powerbiShell.style.background = isFullscreen ? '#000' : '';
-    }
-
-    if (wrapper) {
-      wrapper.style.position = isFullscreen ? 'absolute' : '';
-      wrapper.style.inset = isFullscreen ? '0' : '';
-      wrapper.style.width = isFullscreen ? '100vw' : '';
-      wrapper.style.height = isFullscreen ? '100vh' : '';
-      wrapper.style.maxWidth = isFullscreen ? '100vw' : '';
-      wrapper.style.maxHeight = isFullscreen ? '100vh' : '';
-      wrapper.style.aspectRatio = isFullscreen ? 'auto' : '';
-      wrapper.style.borderRadius = isFullscreen ? '0' : '';
-      wrapper.style.borderWidth = isFullscreen ? '0' : '';
-      wrapper.style.margin = isFullscreen ? '0' : '';
-    }
-
-    if (powerbiIframe) {
-      powerbiIframe.style.position = isFullscreen ? 'absolute' : '';
-      powerbiIframe.style.inset = isFullscreen ? '0' : '';
-      powerbiIframe.style.width = isFullscreen ? '100%' : '';
-      powerbiIframe.style.height = isFullscreen ? '100%' : '';
-      powerbiIframe.style.maxWidth = isFullscreen ? 'none' : '';
-      powerbiIframe.style.maxHeight = isFullscreen ? 'none' : '';
-      powerbiIframe.style.border = isFullscreen ? '0' : '';
-      powerbiIframe.style.display = isFullscreen ? 'block' : '';
-    }
-  };
-
-  const toggleFullscreen = async () => {
-    const activeElement = getFullscreenElement();
-
-    if (!activeElement) {
-      try {
-        if (powerbiIframe && typeof powerbiIframe.requestFullscreen === 'function') {
-          await powerbiIframe.requestFullscreen();
-          return;
-        }
-      } catch (error) {
-        console.warn('Fullscreen no iframe falhou, tentando no shell:', error);
-      }
-
-      if (powerbiShell && typeof powerbiShell.requestFullscreen === 'function') {
-        await powerbiShell.requestFullscreen();
-      }
-      return;
-    }
-
-    await exitFullscreen();
-  };
-
-  const handleEscapeExit = async (event) => {
-    if (event.key === 'Escape' && getFullscreenElement()) {
-      event.preventDefault();
-      await exitFullscreen();
-      syncFullscreenState();
-    }
-  };
-
-  fullscreenButton?.addEventListener('click', toggleFullscreen);
-
-  document.addEventListener('keydown', handleEscapeExit);
-
-  ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach((eventName) => {
-    document.addEventListener(eventName, syncFullscreenState);
-  });
-
-  updateFullscreenButton();
-  applyFullscreenStyles();
-
-  // Captura os controles do menu responsivo e os links do header.
-  const menuToggle = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('.main-nav');
-  const navLinks = [...document.querySelectorAll('.main-nav a')];
-
-  // Aplica o estado visual e semântico ao link da seção atual.
-  const setActiveNav = (target) => {
-    navLinks.forEach((link) => {
-      if (link.getAttribute('href') === target) {
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-    });
-  };
-
-  setActiveNav(window.location.hash || '#dashboard');
-
-  // Abre ou fecha a navegação no mobile e alterna o ícone menu/fechar.
-  menuToggle?.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('open');
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-    menuToggle.innerHTML = `<i data-lucide="${isOpen ? 'x' : 'menu'}"></i>`;
-    lucide.createIcons();
-  });
-
-  // Fecha o menu após selecionar uma seção e atualiza o link ativo.
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => setActiveNav(link.getAttribute('href')));
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuToggle?.setAttribute('aria-expanded', 'false');
-    });
-  });
-
-  // Adiciona rolagem suave às âncoras internas da página.
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener('click', () => {
-      const target = document.querySelector(link.getAttribute('href'));
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Títulos exibidos quando um módulo do dashboard é selecionado.
-  const views = {
-    visao: { title: 'Visão 360°', heading: 'Visão consolidada' },
-    producao: { title: 'Produção', heading: 'Performance produtiva' },
-    clima: { title: 'Clima', heading: 'Inteligência climática' },
-    ambiente: { title: 'Meio Ambiente', heading: 'Saúde do ambiente' },
-    emissoes: { title: 'Emissões', heading: 'Balanço de emissões' },
-    territorio: { title: 'Território', heading: 'Leitura do território' }
-  };
-
-  // Atualiza o botão ativo e os títulos do painel ao trocar de módulo.
-  document.querySelectorAll('.dash-link').forEach((button) => {
-    button.addEventListener('click', () => {
-      document.querySelectorAll('.dash-link').forEach((item) => item.classList.remove('active'));
-      button.classList.add('active');
-      const view = views[button.dataset.view];
-      document.querySelector('#dash-title').textContent = view.title;
-      document.querySelector('#mock-heading').textContent = view.heading;
-    });
-  });
-});
+document.addEventListener("DOMContentLoaded", async () => { setupMenu(); setupFilters(); setupOpportunityFilter(); setupChat(); renderAll(); await loadDriveData(); });
+function setupMenu() { const toggle = document.querySelector(".menu-toggle"); const nav = document.querySelector(".main-nav"); toggle?.addEventListener("click", () => { const open = nav.classList.toggle("open"); toggle.setAttribute("aria-expanded", String(open)); }); nav?.querySelectorAll("a").forEach(link => link.addEventListener("click", () => nav.classList.remove("open"))); }
+function setupFilters() { document.querySelectorAll(".filter-bar select").forEach(select => select.addEventListener("change", event => { const key = { "region-filter": "regiao", "state-filter": "uf", "city-filter": "municipio", "year-filter": "ano" }[event.target.id]; state.filters[key] = event.target.value; if (key === "regiao" || key === "uf") updateCityOptions(); renderAll(); })); }
+function setupOpportunityFilter() { document.querySelectorAll(".legend-filter").forEach(button => button.addEventListener("click", () => { state.filters.oportunidade = button.dataset.opportunity; document.querySelectorAll(".legend-filter").forEach(item => item.classList.toggle("is-active", item === button)); renderAll(); })); }
+function createOptions(id, values, first) { const select = document.getElementById(id); if (!select) return; select.innerHTML = `<option>${first}</option>${values.filter(Boolean).sort((a, b) => String(a).localeCompare(String(b))).map(value => `<option>${escapeHtml(String(value))}</option>`).join("")}`; select.value = state.filters[id === "region-filter" ? "regiao" : id === "state-filter" ? "uf" : id === "city-filter" ? "municipio" : "ano"]; }
+function updateFilterOptions() { const municipalities = state.data.municipalities; createOptions("region-filter", [...new Set(municipalities.map(row => row.regiao))], "Todas"); createOptions("state-filter", [...new Set(municipalities.filter(row => state.filters.regiao === "Todas" || row.regiao === state.filters.regiao).map(row => row.uf))], "Todas"); updateCityOptions(); createOptions("year-filter", state.data.years, "Todos"); }
+function updateCityOptions() { const cities = state.data.municipalities.filter(row => (state.filters.regiao === "Todas" || row.regiao === state.filters.regiao) && (state.filters.uf === "Todas" || row.uf === state.filters.uf)).map(row => row.municipio); createOptions("city-filter", [...new Set(cities)], "Todos"); }
+function filteredMunicipalities() { const latestYear = state.data.years.at(-1); const selectedYear = state.filters.ano === "Todos" ? latestYear : state.filters.ano; return state.data.municipalities.filter(row => (state.filters.regiao === "Todas" || row.regiao === state.filters.regiao) && (state.filters.uf === "Todas" || row.uf === state.filters.uf) && (state.filters.municipio === "Todos" || row.municipio === state.filters.municipio)).map(row => ({ ...row, ...(state.records.find(record => record.codigo_ibge === row.codigo_ibge && String(record.ano) === String(selectedYear)) || {}) })).filter(row => state.filters.oportunidade === "Todas" || row.ioaClass === state.filters.oportunidade); }
+function renderAll() { updateFilterOptions(); renderKpis(); renderCharts(); renderTable(); renderRanking(); renderMap(); }
+function renderKpis() { const rows = filteredMunicipalities(); const isUnfiltered = Object.values(state.filters).every(value => value === "Todas" || value === "Todos"); const totalProduction = rows.reduce((sum, row) => sum + Number(row.production || 0), 0); const averageIoa = rows.length ? rows.reduce((sum, row) => sum + Number(row.ioa || 0), 0) / rows.length : 0; const cards = [{ label: "Área plantada", value: isUnfiltered ? "187,16" : formatNumber(rows.reduce((sum, row) => sum + Number(row.area || 0), 0) / 1000000), unit: "Mi ha", icon: "▦" }, { label: "Produção total", value: isUnfiltered ? "593,67" : formatNumber(totalProduction), unit: "Mi t", icon: "⌁" }, { label: "Rendimento médio", value: isUnfiltered ? "26,05" : formatNumber(rows.reduce((sum, row) => sum + Number(row.yield || 0), 0) / Math.max(rows.length, 1)), unit: "kg/ha", icon: "↗" }, { label: "Municípios", value: isUnfiltered ? "1.661" : formatNumber(rows.length || 0), unit: isUnfiltered ? "Mil" : "unid.", icon: "⌖" }, { label: "Emissões totais", value: "444,83", unit: "Mi tCO₂e", icon: "◌" }, { label: "IOA médio", value: isUnfiltered && !state.records.length ? "57,45" : formatNumber(averageIoa || 0), unit: "pts", icon: "◎" }]; document.getElementById("kpi-grid").innerHTML = cards.map(card => `<article class="kpi-card"><span class="kpi-icon">${card.icon}</span><small>${card.label}</small><strong>${card.value} <i>${card.unit}</i></strong><span class="kpi-trend">● recalculado</span></article>`).join(""); }
+function formatNumber(value) { return Number(value).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function baseChart(type, selector, options) { state.charts[selector]?.destroy(); const formattedOptions = withAxisFormatters(options); state.charts[selector] = new ApexCharts(document.querySelector(selector), { chart: { type, height: "100%", toolbar: { show: false }, fontFamily: "DM Sans", animations: { enabled: true, easing: "easeinout", speed: 650 } }, dataLabels: { enabled: false }, grid: { borderColor: "#e3e9e0", strokeDashArray: 4 }, tooltip: { theme: "light" }, colors: chartColors, ...formattedOptions }); state.charts[selector].render(); }
+function withAxisFormatters(options) { const formatAxis = axis => ({ ...axis, labels: { ...(axis.labels || {}), formatter: formatAxisNumber } }); return { ...options, xaxis: options.xaxis ? formatAxis(options.xaxis) : options.xaxis, yaxis: Array.isArray(options.yaxis) ? options.yaxis.map(formatAxis) : options.yaxis ? formatAxis(options.yaxis) : options.yaxis }; }
+function formatAxisNumber(value) { return Number(value).toLocaleString("pt-BR", { maximumFractionDigits: 2 }); }
+function renderCharts() { const data = state.data; baseChart("radialBar", "#carbon-gauge", { series: [64.94], plotOptions: { radialBar: { startAngle: -110, endAngle: 110, hollow: { size: "64%" }, track: { background: "#e7eee3" }, dataLabels: { name: { show: false }, value: { offsetY: 8, fontSize: "28px", fontWeight: 800, color: "#1b4332", formatter: value => `${value.toFixed(2).replace(".", ",")} t/ha` } } } }, fill: { type: "gradient", gradient: { shade: "light", gradientToColors: ["#b7c84d"], stops: [0, 100] } }, labels: ["Carbono"] }); baseChart("line", "#climate-line", { series: [{ name: "Temperatura média", data: data.climate.temperature }, { name: "Umidade média", data: data.climate.humidity }], xaxis: { categories: data.years }, stroke: { curve: "smooth", width: [3, 3], dashArray: [0, 6] }, yaxis: [{ title: { text: "Temperatura (°C)" } }, { opposite: true, title: { text: "Umidade (%)" } }] }); baseChart("scatter", "#climate-scatter", { series: [{ name: "Municípios", data: data.climate.scatter }], xaxis: { title: { text: "Precipitação anual (mil mm)" } }, yaxis: { title: { text: "Rendimento (Mi t)" } }, markers: { size: 7 }, tooltip: { x: { formatter: value => `${value} mil mm` } } }); baseChart("line", "#production-combo", { series: [{ name: "Centro-Oeste", type: "column", data: data.production.center }, { name: "Sul", type: "column", data: data.production.south }, { name: "Variação %", type: "line", data: [2.1, 3.2, 2.8, -1.4, 6.8, 4.23] }], xaxis: { categories: data.years }, stroke: { width: [0, 0, 3], curve: "smooth" }, plotOptions: { bar: { borderRadius: 4, columnWidth: "58%" } }, yaxis: [{ title: { text: "Produção (Mi t)" } }, { opposite: true, title: { text: "Variação (%)" } }] }); baseChart("treemap", "#land-use-chart", { series: [{ data: data.land.labels.map((x, i) => ({ x, y: data.land.values[i] })) }], legend: { show: false }, plotOptions: { treemap: { distributed: true, enableShades: false } } }); baseChart("scatter", "#land-carbon-chart", { series: [{ name: "Municípios", data: filteredMunicipalities().map(row => [Number(row.coverage || 30) || 30, Number(row.carbon || 50)]) }], xaxis: { title: { text: "Cobertura natural (%)" } }, yaxis: { title: { text: "Carbono no solo (t/ha)" } }, markers: { size: 6 } }); baseChart("bar", "#emission-city-chart", { series: [{ name: "tCO₂e", data: data.emissions.cityValues }], xaxis: { categories: data.emissions.cities }, plotOptions: { bar: { borderRadius: 5, distributed: true, horizontal: false } }, legend: { show: false } }); baseChart("bar", "#emission-state-chart", { series: [{ name: "mil tCO₂e", data: data.emissions.values }], xaxis: { categories: data.emissions.states }, plotOptions: { bar: { horizontal: true, borderRadius: 5, distributed: true } }, legend: { show: false } }); baseChart("bar", "#emission-stack-chart", { series: [{ name: "Diretas", data: [81.63, 81.63, 81.63, 81.63, 81.63] }, { name: "Indiretas", data: [18.37, 18.37, 18.37, 18.37, 18.37] }], xaxis: { categories: data.emissions.cities }, plotOptions: { bar: { horizontal: true, borderRadius: 3, stacked: true } }, xaxis: { categories: data.emissions.cities, max: 100 }, colors: ["#2e6c9e", "#8b5e5e"] }); }
+function renderRanking() { const rows = [...filteredMunicipalities()].sort((a, b) => b.production - a.production).slice(0, 5); document.getElementById("ranking-list").innerHTML = rows.map((row, index) => `<li><span><b>0${index + 1}</b>${escapeHtml(row.municipio)}</span><strong>${formatNumber(row.production)} Mi</strong><i style="--rank:${100 - index * 14}%"></i></li>`).join(""); }
+function renderTable() { const rows = [...filteredMunicipalities()].sort((a, b) => b.carbon - a.carbon).slice(0, 8); document.getElementById("carbon-table").innerHTML = rows.map(row => `<tr><td>${escapeHtml(row.municipio)}</td><td>${escapeHtml(row.uf)}</td><td>${formatNumber(row.carbon)} t/ha</td><td><span class="status-pill ${row.carbon >= 60 ? "status-high" : row.carbon >= 50 ? "status-medium" : "status-low"}">${row.carbon >= 60 ? "Alta" : row.carbon >= 50 ? "Média" : "Baixa"}</span></td></tr>`).join(""); }
+function renderMap() { const element = document.getElementById("territory-map"); if (!window.L) return; if (!element.dataset.ready) { state.map = L.map(element, { zoomControl: false, scrollWheelZoom: false }).setView([-14, -53], 4.5); L.control.zoom({ position: "bottomright" }).addTo(state.map); L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(state.map); element.dataset.ready = "true"; } drawMapMarkers(); }
+function drawMapMarkers() { if (!state.map) return; state.map.eachLayer(layer => { if (layer instanceof L.CircleMarker) state.map.removeLayer(layer); }); filteredMunicipalities().forEach(row => { if (!row.lat || !row.lng) return; const color = row.ioa >= 70 ? "#51b886" : row.ioa >= 50 ? "#dfb54f" : "#cf6a4e"; const marker = L.circleMarker([row.lat, row.lng], { radius: 7, fillColor: color, color: "#fff", weight: 1.5, fillOpacity: .9 }).bindTooltip(`${escapeHtml(row.municipio)} · ${row.uf} · IOA ${formatNumber(row.ioa || 0)}`).bindPopup(`<strong>${escapeHtml(row.municipio)}</strong><br>UF: ${escapeHtml(row.uf)}<br>IOA: ${formatNumber(row.ioa || 0)} pts<br>Carbono: ${formatNumber(row.carbon || 0)} t/ha<br>Produção: ${formatNumber(row.production || 0)} Mi t`); marker.addTo(state.map); }); }
+async function loadDriveData() { const entries = Object.entries(DRIVE_FILE_IDS).filter(([, id]) => id); if (!entries.length) { setDataStatus("Fallback oficial · informe os IDs CSV do Drive"); return; } const results = await Promise.allSettled(entries.map(async ([table, id]) => { const text = await downloadDriveCsv(id, table); state.tables[table] = parseCsv(text).map(normalizeRow); return table; })); const loaded = results.filter(result => result.status === "fulfilled").map(result => result.value); results.filter(result => result.status === "rejected").forEach(result => console.warn("Falha em CSV do Drive:", result.reason)); if (loaded.includes("dim_municipio")) { buildStarModel(); renderAll(); } setDataStatus(loaded.length === entries.length ? "Base oficial do Drive carregada" : `${loaded.length}/${entries.length} tabelas do Drive carregadas`); }
+async function downloadDriveCsv(id, table) { const proxyUrl = window.location.protocol.startsWith("http") ? `/api/csv/${encodeURIComponent(table)}` : ""; const urls = [proxyUrl, `https://drive.usercontent.google.com/download?id=${encodeURIComponent(id)}&export=download&confirm=t`, `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}&confirm=t`].filter(Boolean); for (const url of urls) { try { const response = await fetch(url, { mode: "cors" }); if (response.ok) { const text = await response.text(); if (text.includes(",") && !text.trimStart().startsWith("<!")) return text; } } catch (error) { console.warn("Endpoint de dados indisponível:", url, error); } } throw new Error(`download indisponível para ${table}`); }
+function parseCsv(text) { if (window.Papa?.parse) return Papa.parse(text, { header: true, skipEmptyLines: true, dynamicTyping: true }).data; const rows = []; let row = []; let cell = ""; let quoted = false; for (let index = 0; index < text.length; index += 1) { const character = text[index]; const next = text[index + 1]; if (character === '"' && quoted && next === '"') { cell += '"'; index += 1; } else if (character === '"') quoted = !quoted; else if (character === "," && !quoted) { row.push(cell); cell = ""; } else if ((character === "\n" || character === "\r") && !quoted) { if (character === "\r" && next === "\n") index += 1; row.push(cell); if (row.some(value => value !== "")) rows.push(row); row = []; cell = ""; } else cell += character; } if (cell || row.length) { row.push(cell); rows.push(row); } const headers = rows.shift().map(header => normalizeKey(header)); return rows.map(values => Object.fromEntries(headers.map((header, index) => [header, coerceCsvValue(values[index] ?? "")]))) ; }
+function coerceCsvValue(value) { const trimmed = String(value).trim(); if (trimmed === "") return ""; const numeric = Number(trimmed); return Number.isNaN(numeric) ? trimmed : numeric; }
+function normalizeRow(row) { return Object.fromEntries(Object.entries(row).map(([key, value]) => [normalizeKey(key), value])); }
+function normalizeKey(key) { return String(key).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, ""); }
+function valueFrom(row, keys, fallback = "") { const key = keys.find(name => row[name] !== undefined && row[name] !== null && row[name] !== ""); return key ? row[key] : fallback; }
+function buildStarModel() { const dimension = state.tables.dim_municipio || []; if (!dimension.length) return; const sojaByKey = indexRows(state.tables.fato_soja || []); const climaByKey = indexRows(state.tables.fato_clima || []); const coberturaByKey = indexRows(state.tables.fato_cobertura || []); const emissaoByKey = indexRows(state.tables.fato_emissao_soja || []); const years = [...new Set([...Object.keys(sojaByKey), ...Object.keys(climaByKey), ...Object.keys(coberturaByKey)].map(key => key.split("|")[1]).filter(Boolean))].sort(); const dimensionRows = dimension.map(row => ({ codigo_ibge: String(valueFrom(row, ["codigo_ibge"])), municipio: String(valueFrom(row, ["municipio"], "Sem nome")), uf: String(valueFrom(row, ["uf"], "")), regiao: String(valueFrom(row, ["regiao"], "")), lat: Number(valueFrom(row, ["latitude"], 0)), lng: Number(valueFrom(row, ["longitude"], 0)) })); state.records = dimensionRows.flatMap(place => (years.length ? years : [""]).map(ano => { const key = `${place.codigo_ibge}|${ano}`; const soja = sojaByKey[key] || {}; const clima = climaByKey[key] || {}; const cobertura = coberturaByKey[key] || {}; const emissao = emissaoByKey[key] || {}; return { ...place, ano, area: numberValue(soja, ["area_plantada_ha"]), production: numberValue(soja, ["quantidade_produzida_t"]) / 1000000, yield: numberValue(soja, ["rendimento_medio_kg_ha"]), carbon: numberValue(soja, ["carbono_solo_t_ha"]), coverage: numberValue(cobertura, ["pct_cobertura_natural"]), precipitation: numberValue(clima, ["precipitacao_anual_mm"]), temperature: numberValue(clima, ["temperatura_media_anual_c"]), humidity: numberValue(clima, ["umidade_media_anual_pct"]), climateScore: numberValue(clima, ["score_qualidade_climatica"]), emission: numberValue(emissao, ["emissao_t"]) }; })); state.data.years = years.length ? years : FALLBACK.years; const latest = state.data.years.at(-1); state.data.municipalities = dimensionRows.map(place => ({ ...place, ...(state.records.find(record => record.codigo_ibge === place.codigo_ibge && String(record.ano) === String(latest)) || {}) })); calculateIoa(); }
+function indexRows(rows) { return rows.reduce((index, row) => { const normalized = normalizeRow(row); const key = `${String(valueFrom(normalized, ["codigo_ibge"], ""))}|${String(valueFrom(normalized, ["ano"], ""))}`; if (key !== "|") index[key] = { ...(index[key] || {}), ...normalized }; return index; }, {}); }
+function numberValue(row, keys) { const value = Number(valueFrom(row, keys, 0)); return Number.isFinite(value) ? value : 0; }
+function calculateIoa() { const records = state.records; const metrics = ["yield", "coverage", "carbon", "climateScore", "emission"]; const bounds = Object.fromEntries(metrics.map(metric => { const values = records.map(row => Number(row[metric])).filter(Number.isFinite); return [metric, { min: Math.min(...values, 0), max: Math.max(...values, 1) }]; })); records.forEach(row => { const productivity = minMax(row.yield, bounds.yield); const naturalCoverage = minMax(row.coverage, bounds.coverage); const soilCarbon = minMax(row.carbon, bounds.carbon); const climate = minMax(row.climateScore, bounds.climateScore); const emissionEfficiency = 100 - minMax(row.emission, bounds.emission); row.ioa = productivity * .25 + naturalCoverage * .25 + soilCarbon * .20 + climate * .15 + emissionEfficiency * .15; row.ioaClass = row.ioa >= 70 ? "Alta" : row.ioa >= 50 ? "Média" : "Baixa"; }); }
+function minMax(value, bounds) { if (!Number.isFinite(value) || bounds.max === bounds.min) return 0; return ((value - bounds.min) / (bounds.max - bounds.min)) * 100; }
+function setDataStatus(text) { const status = document.getElementById("data-status"); if (status) status.innerHTML = `<i></i> ${text}`; }
+function setupChat() { const launcher = document.querySelector(".chat-launcher"); const panel = document.getElementById("chat-panel"); const close = document.querySelector(".chat-close"); const toggle = open => { panel.hidden = !open; launcher.setAttribute("aria-expanded", String(open)); }; launcher.addEventListener("click", () => toggle(panel.hidden)); close.addEventListener("click", () => toggle(false)); document.getElementById("chat-form").addEventListener("submit", async event => { event.preventDefault(); const input = document.getElementById("chat-input"); const question = input.value.trim(); if (!question) return; addMessage(question, "user-message"); input.value = ""; addMessage(await askGemini(question), "bot-message"); }); }
+function addMessage(text, className) { const messages = document.getElementById("chat-messages"); messages.insertAdjacentHTML("beforeend", `<p class="${className}">${escapeHtml(text)}</p>`); messages.scrollTop = messages.scrollHeight; }
+async function askGemini(question) { const outOfScope = "Desculpe, sou o assistente virtual do EcoRaiz 360° e só posso responder a questões sobre o projeto de inteligência agroambiental da Raiz Inteligente."; if (!/eco|raiz|ioa|producao|produção|clima|solo|emiss|territorio|território|pipeline|dados|cobertura|carbono|agro/i.test(question)) return outOfScope; if (GEMINI_API_KEY === "SUA_API_KEY_AQUI") return "O EcoRaiz integra produção, clima, solo, cobertura e emissões. O IOA pondera produtividade (25%), cobertura natural (25%), carbono (20%), segurança climática (15%) e intensidade GHG (15%). Configure a chave Gemini no script para respostas geradas pela IA."; try { const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ systemInstruction: { parts: [{ text: `Você é o assistente técnico do EcoRaiz 360° da Raiz Inteligente. Responda em português apenas sobre o projeto, pipeline RAW, limpeza, modelo estrela, produção de soja, clima, solo, cobertura, emissões, dashboard ou IOA. Fora do escopo, diga exatamente: ${outOfScope}` }] }, contents: [{ role: "user", parts: [{ text: question }] }] }) }); const json = await response.json(); if (!response.ok) { console.warn("Gemini recusou a solicitação:", json); return "Não consegui consultar a IA agora. Verifique a chave Gemini e o acesso ao modelo; o painel de dados continua funcionando."; } return json.candidates?.[0]?.content?.parts?.[0]?.text || "A IA não retornou conteúdo para esta pergunta."; } catch { return "A IA está temporariamente indisponível. Os indicadores e análises locais continuam disponíveis."; } }
+function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character])); }
