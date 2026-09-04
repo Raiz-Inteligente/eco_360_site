@@ -1,9 +1,9 @@
 // ==========================================
 // INSIRA SUA CHAVE DA API DO GEMINI ABAIXO:
-//const GEMINI_API_KEY = "SUA_API_KEY_AQUI"   ;
+const GEMINI_API_KEY = "SUA_API_KEY_AQUI";
 // ==========================================
 
-const DATA_FOLDER_URL = "https://drive.google.com/drive/folders/1wSHcvrLdmFlmVMZHQwzzD9b-S3kQRmm4?usp=sharing";
+const DATA_FOLDER_URL = "https://drive.google.com/drive/folders/1wSHcvrLdmFlmVMZHQwzzD9b-S3kQRmm4?usp=sgharin";
 // Preencha os IDs dos arquivos compartilhados para habilitar a carga direta do Drive.
 const DRIVE_FILE_IDS = { dim_municipio: "139YOCJHN29Bjm1rlc5zd9jdCNNLRqT9d", fato_soja: "1-pwDlBEJMBZ6k5GsAnMek89ZaXalFv-4", fato_clima: "1IPCCLYvk6LMjigP1iw5zxcl7v57ltFoP", fato_cobertura: "16FWvNeHarzOWgqoWD_Z2ZI5KcoMRGyuE", fato_emissao_soja: "1GDjOovnierCNvRm_gr7jOtiYI5mt7uk-", fato_emissao_estado: "1xBFRbe9f0p0TZKCFwzsqddmxK_3_msvx" };
 const FALLBACK = {
