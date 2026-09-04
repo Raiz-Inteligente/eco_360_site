@@ -1,6 +1,6 @@
 // ==========================================
 // INSIRA SUA CHAVE DA API DO GEMINI ABAIXO:
-const GEMINI_API_KEY = "AQ.Ab8RN6I4tTy--ZNhWCL3GErl0iHXQ9pg-a6ujONjYKQDB2gQOw";
+const GEMINI_API_KEY = "SUA_API_KEY_AQUI"   ;
 // ==========================================
 
 const DATA_FOLDER_URL = "https://drive.google.com/drive/folders/1wSHcvrLdmFlmVMZHQwzzD9b-S3kQRmm4?usp=sharing";
