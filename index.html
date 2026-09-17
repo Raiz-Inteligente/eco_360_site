@@ -1,187 +1,106 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <!-- Metadados, título, favicon, fontes e arquivos externos do site -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Raiz Inteligente Consultoria | ECO360: inteligência para uma agricultura mais produtiva e regenerativa.">
-  <title>Raiz Inteligente | ECO360</title>
+  <meta name="description" content="Eco360: inteligência agroambiental para a cadeia da soja, conectando dados territoriais, produção, clima, uso da terra e emissões.">
+  <meta name="theme-color" content="#102a24">
+  <title>Eco360 | Inteligência agroambiental</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <!-- Cabeçalho fixo com marca, navegação principal e CTA de contato -->
   <header class="site-header">
-    <a class="brand" href="#inicio" aria-label="Raiz Inteligente Consultoria - início">
-      <span class="brand-mark"><i data-lucide="sprout"></i></span>
-      <span class="brand-copy"><strong>Raiz Inteligente</strong><small>CONSULTORIA</small></span>
+    <a class="brand" href="#inicio" aria-label="Eco360, início">
+      <span class="brand-mark">e<span>°</span></span>
+      <span><strong>Eco360</strong><small>RAIZ INTELIGENTE</small></span>
     </a>
-    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><i data-lucide="menu"></i></button>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">Menu</button>
     <nav class="main-nav" aria-label="Navegação principal">
-      <a href="#inicio" data-section="inicio">Início</a>
-      <a href="#dashboard" data-section="dashboard">Visão 360°</a>
-      <a href="#metodologia" data-section="metodologia">Metodologia</a>
-      <a href="#producao" data-section="producao">KPIs &amp; Produção</a>
+      <a href="#desafio">O desafio</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#ioa">IOA</a>
+      <a href="#dashboard">Dashboard</a>
     </nav>
-    <a class="button button-outline header-cta" href="#contato">Contato <i data-lucide="arrow-up-right"></i></a>
+    <a class="header-link" href="#contato">Falar com a equipe <span aria-hidden="true">↗</span></a>
   </header>
 
   <main>
-    <!-- HERO SECTION -->
-    <!-- Apresentação da consultoria, proposta de valor e imagem temática -->
     <section class="hero" id="inicio">
       <div class="hero-copy reveal">
-        <div class="eyebrow"><span></span> Inteligência agroambiental aplicada</div>
-        <h1>O futuro do agro<br><em>começa pela raiz.</em></h1>
-        <p>O ECO360 conecta produção, clima, território e emissões para transformar dados em decisões que geram valor para o negócio e para o planeta.</p>
+        <p class="kicker"><span></span> Inteligência agroambiental para a cadeia da soja</p>
+        <h1>O território<br><em>fala em dados.</em></h1>
+        <p class="hero-lede">O Eco360 conecta produção, clima, solo, uso da terra e emissões para apoiar diagnósticos territoriais e a priorização de municípios.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#metodologia">Ver metodologia <i data-lucide="arrow-down-right"></i></a>
-          <a class="button button-text" href="#dashboard">Acessar dashboard <i data-lucide="move-up-right"></i></a>
+          <a class="button button-dark" href="#pipeline">Explorar a metodologia <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#dashboard">Ver o dashboard <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="hero-proof">
-          <div class="avatar-stack"><span>RS</span><span>PR</span><span>MT</span><span>+</span></div>
-          <span>Dados que aproximam<br><b>pessoas, terra e resultado.</b></span>
-        </div>
+        <div class="hero-note"><span class="signal-dot"></span><span>Uma estrutura única no nível do município<br><strong>Centro-Oeste + Sul do Brasil</strong></span></div>
       </div>
-      <div class="hero-visual reveal">
-        <!-- Imagem principal do território e métrica destacada do IOA -->
-        <div class="visual-frame">
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85" alt="Campo agrícola ao nascer do sol">
-          <div class="visual-caption">
-            <span class="live-dot"></span>
-            <div><small>ECOSSISTEMA ECO360</small><strong>Visão integrada do território</strong></div>
-            <i data-lucide="arrow-up-right"></i>
-          </div>
-        </div>
-        <div class="floating-stat">
-          <span class="stat-icon"><i data-lucide="target"></i></span>
-          <div>
-            <small>IOA Médio (Sul / Centro-Oeste)</small>
-            <strong>57,45 pts <span>↑</span></strong>
-            <p class="stat-desc" style="font-size: 0.72rem; color: #666; margin-top: 4px; line-height: 1.2; max-width: 210px;">
-              Índice de Oportunidade Agroambiental: cruza dados de produção e sustentabilidade do solo.
-            </p>
-          </div>
-        </div>
-        <div class="sun-line"></div>
+      <div class="hero-visual reveal" aria-label="Imagem local de um campo de soja">
+        <div class="hero-image"><img src="imagens/campo soja.jfif" alt="Campo de soja visto de perto" fetchpriority="high"></div>
+        <div class="hero-stamp"><span>01</span><strong>território<br>em foco</strong></div>
+        <div class="hero-data"><small>BASE MUNICIPAL</small><strong>1.661</strong><span>municípios na união de PAM, INMET e MapBiomas</span></div>
       </div>
     </section>
 
-    <!-- ÁREA INTERATIVA DO POWER BI -->
-    <!-- Dashboard incorporado com proporção e enquadramento controlados pelo CSS -->
+    <section class="challenge section-light" id="desafio">
+      <div class="section-intro reveal"><p class="kicker"><span></span> O desafio</p><h2>Informação existe.<br><em>Conexão é o trabalho.</em></h2></div>
+      <div class="challenge-copy reveal"><p>A produção de soja tem grande peso econômico no Centro-Oeste e Sul, mas os sinais que explicam cada território estão espalhados em bases diferentes, sem chave comum e sem comparabilidade direta.</p><p>O Eco360 organiza essa complexidade em uma leitura territorial para responder: <strong>onde estão as principais oportunidades de eficiência agrícola, redução de emissões e descarbonização?</strong></p></div>
+    </section>
+
+    <section class="data-section" id="dados">
+      <div class="section-intro reveal"><p class="kicker"><span></span> De onde vêm os dados</p><h2>Quatro lentes.<br><em>Um mesmo território.</em></h2></div>
+      <div class="data-grid">
+        <article class="data-card reveal"><span class="data-index">01</span><strong>Produção</strong><p>PAM e MapBiomas Solo: quantidade produzida, rendimento e carbono no solo.</p></article>
+        <article class="data-card reveal"><span class="data-index">02</span><strong>Clima</strong><p>INMET: precipitação, temperatura, umidade e qualidade climática.</p></article>
+        <article class="data-card reveal"><span class="data-index">03</span><strong>Uso da terra</strong><p>MapBiomas: agricultura, soja, cobertura natural, pastagem e biomas.</p></article>
+        <article class="data-card reveal"><span class="data-index">04</span><strong>Emissões</strong><p>Base municipal e contexto estadual para emissões da produção de soja.</p></article>
+      </div>
+    </section>
+
+    <section class="pipeline section-light" id="pipeline">
+      <div class="pipeline-heading reveal"><p class="kicker"><span></span> Da fonte à decisão</p><h2>O dado atravessa<br><em>quatro camadas.</em></h2><p>Cada tratamento foi pensado para que uma inconsistência no dashboard possa ser rastreada até a etapa em que foi introduzida.</p></div>
+      <div class="pipeline-track" aria-label="Pipeline de dados do Eco360">
+        <article class="pipeline-step reveal"><span>01</span><strong>Raw</strong><p>Fontes brutas reunidas.</p></article>
+        <i aria-hidden="true">→</i>
+        <article class="pipeline-step reveal"><span>02</span><strong>Limpeza</strong><p>Colunas e formatos padronizados.</p></article>
+        <i aria-hidden="true">→</i>
+        <article class="pipeline-step reveal"><span>03</span><strong>Modelo</strong><p>Estrutura relacional normalizada.</p></article>
+        <i aria-hidden="true">→</i>
+        <article class="pipeline-step is-final reveal"><span>04</span><strong>MySQL</strong><p>Carga pronta para análise.</p></article>
+      </div>
+      <div class="pipeline-foot reveal"><span>O território como chave comum</span><strong>codigo_ibge</strong><span>·</span><span>coordenadas oficiais do IBGE</span></div>
+    </section>
+
+    <section class="ioa-section" id="ioa">
+      <div class="ioa-intro reveal"><p class="kicker"><span></span> Do dado à prioridade</p><h2>O IOA transforma<br><em>complexidade em foco.</em></h2><p>O Índice de Oportunidade Agroambiental é um indicador normalizado, calculado em DAX, que combina cinco pilares para orientar o aprofundamento da análise.</p></div>
+      <div class="ioa-visual reveal">
+        <div class="ioa-orbit"><span>IOA</span><small>priorização<br>territorial</small></div>
+        <div class="ioa-pill pill-one">Produtividade</div><div class="ioa-pill pill-two">Clima</div><div class="ioa-pill pill-three">Emissão inversa</div><div class="ioa-pill pill-four">Carbono no solo</div><div class="ioa-pill pill-five">Cobertura natural</div>
+      </div>
+      <div class="ioa-legend reveal"><div><span class="legend-dot high"></span><strong>Alta oportunidade</strong><small>prioritário para aprofundar</small></div><div><span class="legend-dot mid"></span><strong>Média oportunidade</strong><small>requer investigação adicional</small></div><div><span class="legend-dot low"></span><strong>Baixa oportunidade</strong><small>menor prioridade nos critérios</small></div></div>
+      <p class="method-note reveal">O IOA é um indicador de priorização. Não é, por si só, uma certificação ou comprovação de elegibilidade para créditos de carbono.</p>
+    </section>
+
+    <section class="territory section-light" id="territorio">
+      <div class="territory-copy reveal"><p class="kicker"><span></span> Precisão territorial</p><h2>Do mapa para<br><em>o próximo passo.</em></h2><p>A base reúne 1.661 municípios. Desses, 1.659 têm latitude e longitude preenchidas por centróides oficiais do IBGE, permitindo uma leitura espacial coerente.</p><div class="territory-stats"><div><strong>1.661</strong><span>municípios</span></div><div><strong>1.659</strong><span>coordenadas preenchidas</span></div></div></div>
+      <div class="territory-map reveal"><div class="map-grid"></div><div class="map-label"><span></span> Centro-Oeste + Sul<br><small>malha municipal · IBGE</small></div><div class="map-points"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    </section>
+
     <section class="dashboard-section" id="dashboard">
-      <div class="section-heading reveal">
-        <div>
-          <div class="eyebrow"><span></span> Centro de inteligência</div>
-          <h2>Uma visão. <em>360 possibilidades.</em></h2>
-        </div>
-        <p>Acesse o painel interativo abaixo para navegar entre as abas e dados do ECO360.</p>
-      </div>
-
-      <div class="powerbi-shell">
-        <button class="powerbi-fullscreen-toggle" type="button" aria-label="Ativar tela cheia" aria-pressed="false">
-          <span class="powerbi-fullscreen-icon" aria-hidden="true">⛶</span>
-          <span class="powerbi-fullscreen-text">Tela cheia</span>
-        </button>
-
-        <div class="powerbi-wrapper reveal">
-          <!-- SUBSTUTUA O SRC ABAIXO PELA SUA URL DO POWER BI -->
-          <iframe title="eco_360" src="https://app.powerbi.com/reportEmbed?reportId=b8eb81c6-434d-4a1f-a4a2-46b5eb1df68b&autoAuth=true&ctid=bd697c1b-c481-479c-841e-c618542675c3" frameborder="0" allow="fullscreen; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen>
-          </iframe>
-        </div>
-      </div>
+      <div class="section-intro section-intro-inverse reveal"><p class="kicker"><span></span> A camada de consumo</p><h2>Agora, os dados<br><em>ganham contexto.</em></h2><p>O relatório Power BI tem 9 páginas para explorar visão 360, produção, clima, meio ambiente, emissões, território, metodologia e contato.</p></div>
+      <div class="dashboard-shell reveal"><div class="dashboard-top"><span>POWER BI · ECO360</span><button class="powerbi-fullscreen-toggle" type="button" aria-label="Abrir dashboard em tela cheia" aria-pressed="false">Tela cheia <span aria-hidden="true">⛶</span></button></div><div class="powerbi-wrapper"><iframe title="Dashboard Eco360 no Power BI" src="https://app.powerbi.com/reportEmbed?reportId=b8eb81c6-434d-4a1f-a4a2-46b5eb1df68b&autoAuth=true&ctid=bd697c1b-c481-479c-841e-c618542675c3" loading="lazy" allow="fullscreen; clipboard-write; encrypted-media; picture-in-picture"></iframe></div></div>
     </section>
 
-    <!-- METODOLOGIA E KPIS -->
-    <!-- Explicação do método e indicadores consolidados do ECO360 -->
-    <section class="methodology" id="metodologia">
-      <div class="method-intro reveal">
-        <div class="eyebrow"><span></span> O método</div>
-        <h2>Decisões melhores<br>nascem de <em>conexões.</em></h2>
-        <p>O ECO360 organiza a complexidade do campo em uma leitura simples, acionável e completa. Porque sustentabilidade também é saber para onde ir.</p>
-        <a href="https://github.com/Raiz-Inteligente" class="text-link" target="_blank">Conheça a Raiz Inteligente <i data-lucide="arrow-up-right"></i></a>
-      </div>
-      <div class="kpi-cards reveal" id="producao">
-        <!-- Card 01: área territorial monitorada -->
-        <article class="kpi-card">
-          <div class="kpi-top">
-            <span class="kpi-symbol"><i data-lucide="landmark"></i></span>
-            <span class="card-number">01</span>
-          </div>
-          <small>PRODUÇÃO</small>
-          <h3>Área plantada</h3>
-          <strong>187,16 <b>Mi ha</b></strong>
-          <div class="card-bottom">
-            <span class="positive">Consolidado</span>
-            <span>Base territorial Brasil</span>
-          </div>
-        </article>
+    <section class="stack section-light" id="tecnologia"><div class="section-intro reveal"><p class="kicker"><span></span> Arquitetura</p><h2>Ferramentas que<br><em>sustentam a leitura.</em></h2></div><div class="stack-list"><div class="stack-row reveal"><span>01</span><strong>Python + pandas</strong><p>Extração, limpeza, padronização e carga.</p></div><div class="stack-row reveal"><span>02</span><strong>GeoPandas</strong><p>Geoprocessamento e enriquecimento territorial.</p></div><div class="stack-row reveal"><span>03</span><strong>SQL + MySQL</strong><p>Modelo relacional em star schema.</p></div><div class="stack-row reveal"><span>04</span><strong>Power BI + DAX</strong><p>Visualização executiva e cálculo do IOA.</p></div><div class="stack-row reveal"><span>05</span><strong>Azure Maps</strong><p>Visual geográfico customizado.</p></div></div></section>
 
-        <!-- Card 02: produção total consolidada -->
-        <article class="kpi-card accent-card">
-          <div class="kpi-top">
-            <span class="kpi-symbol"><i data-lucide="wheat"></i></span>
-            <span class="card-number">02</span>
-          </div>
-          <small>EFICIÊNCIA</small>
-          <h3>Produção total</h3>
-          <strong>593,67 <b>Mi t</b></strong>
-          <div class="card-bottom">
-            <span class="positive">Consolidado</span>
-            <span>Soja Centro-Oeste / Sul</span>
-          </div>
-        </article>
-
-        <!-- Card 03: potencial de carbono no solo -->
-        <article class="kpi-card">
-          <div class="kpi-top">
-            <span class="kpi-symbol"><i data-lucide="sprout"></i></span>
-            <span class="card-number">03</span>
-          </div>
-          <small>REGENERAÇÃO</small>
-          <h3>Carbono no solo</h3>
-          <strong>53,01 <b>t/ha</b></strong>
-          <div class="card-bottom">
-            <span class="positive">Média</span>
-            <span>Potencial de carbono</span>
-          </div>
-        </article>
-
-        <!-- Card 04: Índice de Oportunidade Agroambiental -->
-        <article class="kpi-card">
-          <div class="kpi-top">
-            <span class="kpi-symbol"><i data-lucide="target"></i></span>
-            <span class="card-number">04</span>
-          </div>
-          <small>ANÁLISE ESTRATÉGICA</small>
-          <h3>IOA Médio</h3>
-          <strong>57,45 <b>pts</b></strong>
-          <div class="card-bottom">
-            <span class="positive">Índice</span>
-            <span>Oportunidade Agroambiental</span>
-          </div>
-        </article>
-      </div>
-    </section>
+    <section class="contact" id="contato"><div class="contact-copy reveal"><p class="kicker"><span></span> Raiz Inteligente</p><h2>Uma leitura melhor<br><em>começa em conjunto.</em></h2><p>O Eco360 foi construído colaborativamente entre engenharia de dados, análise, modelagem e visualização.</p><a class="button button-light" href="https://github.com/Raiz-Inteligente" target="_blank" rel="noreferrer">Conhecer o projeto no GitHub <span aria-hidden="true">↗</span></a></div><div class="team-art reveal"><div class="art-placeholder"><span>ARTE DA EQUIPE</span><strong>Reservado para<br>contato institucional</strong><small>/assets/contato/arte-equipe.png</small></div></div><div class="team-names"><span>Ana Marly Couto</span><span>Beatriz Costa</span><span>Guilherme Gomes</span><span>Karine Furtado</span><span>Rafael Liger</span></div></section>
   </main>
-
-  <!-- Rodapé com identidade, mensagem institucional e canal de contato -->
-  <footer id="contato">
-    <div class="footer-brand">
-      <span class="brand-mark"><i data-lucide="sprout"></i></span>
-      <span><strong>Raiz Inteligente</strong><small>CONSULTORIA</small></span>
-    </div>
-    <p>Inteligência para cultivar um futuro possível.</p>
-    <a class="button button-light" href="mailto:contato@raizinteligente.com.br?subject=Consulta%20Eco360&body=Olá,%20gostaria%20de%20mais%20informações.">Fale com a gente <i data-lucide="arrow-up-right"></i></a>
-    <small class="copyright">© 2026 Raiz Inteligente Consultoria</small>
-  </footer>
-
-  <!-- Biblioteca de ícones e lógica de interação da página -->
+  <footer><span>Eco360 · Raiz Inteligente</span><span>Inteligência para a cadeia da soja</span><span>© 2026</span></footer>
   <script src="script.js"></script>
-  <script>lucide.createIcons();</script>
 </body>
 </html>
